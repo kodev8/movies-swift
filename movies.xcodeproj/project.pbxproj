@@ -26,6 +26,14 @@
 		ACFE2CEE2D383C5C002C7BA0 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFE2CED2D383C5C002C7BA0 /* HomeView.swift */; };
 		ACFE2CF02D384284002C7BA0 /* FilterPill.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACFE2CEF2D384284002C7BA0 /* FilterPill.swift */; };
 		B49654232D4F5B5F005EBE92 /* MovieRowItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49654222D4F5B5F005EBE92 /* MovieRowItem.swift */; };
+		B49CDCE02D4FC98800DD4050 /* SwiftfulUI in Frameworks */ = {isa = PBXBuildFile; productRef = B49CDCDF2D4FC98800DD4050 /* SwiftfulUI */; };
+		B49CDCE22D4FD30D00DD4050 /* MovieDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49CDCE12D4FD30D00DD4050 /* MovieDetailsView.swift */; };
+		B49CDCE42D4FD38200DD4050 /* DetailsHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49CDCE32D4FD38200DD4050 /* DetailsHeader.swift */; };
+		B49CDCE62D4FD91100DD4050 /* SubDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49CDCE52D4FD91100DD4050 /* SubDetailsView.swift */; };
+		B49CDCE82D4FE1B500DD4050 /* MyListButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49CDCE72D4FE1B500DD4050 /* MyListButton.swift */; };
+		B49CDCEA2D4FE4A900DD4050 /* RateButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49CDCE92D4FE4A900DD4050 /* RateButton.swift */; };
+		B49CDCEC2D4FEC5300DD4050 /* ShareButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = B49CDCEB2D4FEC5300DD4050 /* ShareButton.swift */; };
+		B49CDCEF2D4FF58800DD4050 /* SwiftfulRouting in Frameworks */ = {isa = PBXBuildFile; productRef = B49CDCEE2D4FF58800DD4050 /* SwiftfulRouting */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -67,6 +75,12 @@
 		ACFE2CED2D383C5C002C7BA0 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		ACFE2CEF2D384284002C7BA0 /* FilterPill.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterPill.swift; sourceTree = "<group>"; };
 		B49654222D4F5B5F005EBE92 /* MovieRowItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieRowItem.swift; sourceTree = "<group>"; };
+		B49CDCE12D4FD30D00DD4050 /* MovieDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsView.swift; sourceTree = "<group>"; };
+		B49CDCE32D4FD38200DD4050 /* DetailsHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsHeader.swift; sourceTree = "<group>"; };
+		B49CDCE52D4FD91100DD4050 /* SubDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubDetailsView.swift; sourceTree = "<group>"; };
+		B49CDCE72D4FE1B500DD4050 /* MyListButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyListButton.swift; sourceTree = "<group>"; };
+		B49CDCE92D4FE4A900DD4050 /* RateButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RateButton.swift; sourceTree = "<group>"; };
+		B49CDCEB2D4FEC5300DD4050 /* ShareButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareButton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +88,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B49CDCE02D4FC98800DD4050 /* SwiftfulUI in Frameworks */,
+				B49CDCEF2D4FF58800DD4050 /* SwiftfulRouting in Frameworks */,
 				AC3A51BB2D43A1E8009EE2B7 /* SDWebImageSwiftUI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -119,6 +135,7 @@
 				AC7570AF2D32B705000EBBDD /* movies */,
 				AC7570C02D32B707000EBBDD /* moviesTests */,
 				AC7570CA2D32B707000EBBDD /* moviesUITests */,
+				B49CDCDE2D4FC98800DD4050 /* Frameworks */,
 				AC7570AE2D32B705000EBBDD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -186,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				ACFE2CED2D383C5C002C7BA0 /* HomeView.swift */,
+				B49CDCE12D4FD30D00DD4050 /* MovieDetailsView.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -198,8 +216,20 @@
 				AC0133942D410AB7000F039D /* Hero.swift */,
 				AC3A51B72D439E79009EE2B7 /* ImageView.swift */,
 				B49654222D4F5B5F005EBE92 /* MovieRowItem.swift */,
+				B49CDCE32D4FD38200DD4050 /* DetailsHeader.swift */,
+				B49CDCE52D4FD91100DD4050 /* SubDetailsView.swift */,
+				B49CDCE72D4FE1B500DD4050 /* MyListButton.swift */,
+				B49CDCE92D4FE4A900DD4050 /* RateButton.swift */,
+				B49CDCEB2D4FEC5300DD4050 /* ShareButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		B49CDCDE2D4FC98800DD4050 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -220,6 +250,8 @@
 			name = movies;
 			packageProductDependencies = (
 				AC3A51BA2D43A1E8009EE2B7 /* SDWebImageSwiftUI */,
+				B49CDCDF2D4FC98800DD4050 /* SwiftfulUI */,
+				B49CDCEE2D4FF58800DD4050 /* SwiftfulRouting */,
 			);
 			productName = movies;
 			productReference = AC7570AD2D32B705000EBBDD /* movies.app */;
@@ -295,6 +327,8 @@
 			mainGroup = AC7570A42D32B705000EBBDD;
 			packageReferences = (
 				AC3A51B92D43A1E8009EE2B7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */,
+				B49CDCDD2D4FC88800DD4050 /* XCRemoteSwiftPackageReference "SwiftfulUI" */,
+				B49CDCED2D4FF57E00DD4050 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */,
 			);
 			productRefGroup = AC7570AE2D32B705000EBBDD /* Products */;
 			projectDirPath = "";
@@ -343,14 +377,20 @@
 				B49654232D4F5B5F005EBE92 /* MovieRowItem.swift in Sources */,
 				AC7570DE2D32C39D000EBBDD /* SplashScreen.swift in Sources */,
 				AC3A51BE2D43A675009EE2B7 /* movie.service.swift in Sources */,
+				B49CDCEA2D4FE4A900DD4050 /* RateButton.swift in Sources */,
 				AC3A51C12D43A7F3009EE2B7 /* Movie.swift in Sources */,
+				B49CDCE82D4FE1B500DD4050 /* MyListButton.swift in Sources */,
 				ACFE2CEE2D383C5C002C7BA0 /* HomeView.swift in Sources */,
 				AC7570B32D32B705000EBBDD /* ContentView.swift in Sources */,
+				B49CDCE22D4FD30D00DD4050 /* MovieDetailsView.swift in Sources */,
 				AC3A51C52D43B3F8009EE2B7 /* user.service.swift in Sources */,
+				B49CDCE62D4FD91100DD4050 /* SubDetailsView.swift in Sources */,
 				AC0133952D410AB7000F039D /* Hero.swift in Sources */,
 				ACFE2CF02D384284002C7BA0 /* FilterPill.swift in Sources */,
+				B49CDCE42D4FD38200DD4050 /* DetailsHeader.swift in Sources */,
 				AC7570B12D32B705000EBBDD /* moviesApp.swift in Sources */,
 				AC3A51C32D43AA34009EE2B7 /* User.swift in Sources */,
+				B49CDCEC2D4FEC5300DD4050 /* ShareButton.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +724,22 @@
 				minimumVersion = 3.1.3;
 			};
 		};
+		B49CDCDD2D4FC88800DD4050 /* XCRemoteSwiftPackageReference "SwiftfulUI" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulUI.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.7;
+			};
+		};
+		B49CDCED2D4FF57E00DD4050 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftfulThinking/SwiftfulRouting.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.3.6;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -691,6 +747,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = AC3A51B92D43A1E8009EE2B7 /* XCRemoteSwiftPackageReference "SDWebImageSwiftUI" */;
 			productName = SDWebImageSwiftUI;
+		};
+		B49CDCDF2D4FC98800DD4050 /* SwiftfulUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B49CDCDD2D4FC88800DD4050 /* XCRemoteSwiftPackageReference "SwiftfulUI" */;
+			productName = SwiftfulUI;
+		};
+		B49CDCEE2D4FF58800DD4050 /* SwiftfulRouting */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B49CDCED2D4FF57E00DD4050 /* XCRemoteSwiftPackageReference "SwiftfulRouting" */;
+			productName = SwiftfulRouting;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

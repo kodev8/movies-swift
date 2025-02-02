@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-
+import SwiftfulUI
 
 struct Hero: View {
     var imageName: String = "";
@@ -65,9 +65,9 @@ struct Hero: View {
                     .foregroundStyle(.nDarkGray)
                     .background(.white)
                     .cornerRadius(4)
-//                    .asButton(.press){
-//
-//                    }
+                    .asButton(.press){
+
+                    }
                     
                     HStack {
                         Image(systemName: "plus")
@@ -78,9 +78,9 @@ struct Hero: View {
                     .foregroundStyle(.white)
                     .background(.nDarkGray)
                     .cornerRadius(4)
-//                    .asButton(.press){
-//
-//                    }
+                    .asButton(.press){
+
+                    }
                 }
                 .font(.callout)
                 .fontWeight(.medium)
@@ -99,14 +99,13 @@ struct Hero: View {
                 endPoint: .bottom
                 )
             )
-//            .background(Color.blue)
         }
         .foregroundStyle(.white)
         .cornerRadius(10)
         .aspectRatio(0.8, contentMode: .fit)
-//        .asButton(.tap){
-//
-//        }
+        .asButton(.tap){
+
+        }
     }
 }
 

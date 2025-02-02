@@ -11,6 +11,8 @@ struct MovieRowItem: View {
     
     var width: CGFloat = 90;
     var height: CGFloat = 130;
+    
+    var movie: Movie? = nil
     var imageName: String = "";
     var title: String? = "";
     var isRecentlyAdded: Bool = true;
@@ -30,7 +32,7 @@ struct MovieRowItem: View {
             }
             
             ZStack(alignment: .bottom) {
-                ImageView()
+                ImageView(url: imageName)
                 
                 VStack(spacing: 0) {
                     if let title, let firstWord = title.components(separatedBy:" " ).first {

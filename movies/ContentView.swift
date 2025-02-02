@@ -51,7 +51,7 @@ struct ContentView: View {
     }
     
     func fetchMovies() async {
-        await movieService.getMovies(url: "https://www.omdbapi.com/?s=titanic&apikey=YOUR_API_KEY")
+        await movieService.getMovies(url: "https://www.omdbapi.com/?s=titanic&apikey=7080ff75")
     }
     
     var body: some View {
@@ -88,7 +88,9 @@ struct ContentView: View {
                 if !movieService.movies.isEmpty {
                     List {
                         ForEach(movieService.movies) { movie in
-                            MovieRowItem(movie: movie)
+                            MovieRowItem(
+                                imageName: movie.poster,
+                                title: movie.title)
                                 .listRowBackground(Color.black)
                         }
                     }

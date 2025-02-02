@@ -14,9 +14,9 @@ class MovieService: ObservableObject {
     @MainActor
     func getMovies(url: String) async {
         // Use the working API key from your response
-        let apiUrl = "https://www.omdbapi.com/?s=titanic&apikey=708off75"
+        
         do {
-            let (data, _) = try await URLSession.shared.data(from: URL(string: apiUrl)!)
+            let (data, _) = try await URLSession.shared.data(from: URL(string: url)!)
             let decodedResponse = try JSONDecoder().decode(MovieResponse.self, from: data)
             
             if let searchResults = decodedResponse.search {
