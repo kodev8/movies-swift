@@ -51,81 +51,58 @@ struct ContentView: View {
     }
     
     func fetchMovies() async {
-        await movieService.getMovies(url: "https://omdbapi.com/?s=titanic&page=1&apikey=708off75")
+        await movieService.getMovies(url: "https://www.omdbapi.com/?s=titanic&apikey=YOUR_API_KEY")
     }
     
     var body: some View {
-        
-        
-        ZStack{
+        ZStack {
+            // Background
+            Color.black.edgesIgnoringSafeArea(.all)
             
-            VStack {
-                Rectangle().fill(.black).frame(width: 500, height: 1000)
-            }
-            
-            VStack {
-                
-                
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-                Text("Netflix")
-                    .foregroundColor(.gray)
-                
-                    Button(action: signIn) {
-                        Label("sign in", systemImage: "arrow.up")
-                    }
-                
-                Button(action: fetchTodos) {
-                    Label("fetch posts", systemImage: "arrow.up")
+            VStack(spacing: 16) {
+                // Header
+                VStack(spacing: 8) {
+                    Image(systemName: "film")
+                        .imageScale(.large)
+                        .foregroundStyle(.red)
+                    Text("Movie Browser")
+                        .font(.title)
+                        .foregroundColor(.white)
                 }
+                .padding(.top)
                 
-                Button(action: clearTodos) {
-                    Label("clear", systemImage: "arrow.up")
-                }
-                
+                // Fetch Movies Button
                 Button(action: {
                     Task {
                         await fetchMovies()
                     }
                 }) {
-                    Label("Fetch Movies", systemImage: "film")
+                    Label("Search Movies", systemImage: "magnifyingglass")
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.red)
+                        .cornerRadius(8)
                 }
                 
-                List(todos) { todo in
-                    VStack {
-                        Text(todo.title)
-                        Text("\(todo.userId)")
-                        if (todo.completed) {
-                            Text("co")
-                        }else {
-                            Text("nco")
+                // Movies List
+                if !movieService.movies.isEmpty {
+                    List {
+                        ForEach(movieService.movies) { movie in
+                            MovieRowItem(movie: movie)
+                                .listRowBackground(Color.black)
                         }
                     }
+                    .listStyle(.plain)
+                    .background(Color.black)
+                } else {
+                    Spacer()
+                    Text("Search for movies to get started")
+                        .foregroundColor(.gray)
+                    Spacer()
                 }
-                .frame(height: 200)
-                
-                List(movieService.movies) { movie in
-                    VStack(alignment: .leading) {
-                        Text(movie.title)
-                            .font(.headline)
-                        Text(movie.year)
-                            .font(.subheadline)
-                            .foregroundColor(.gray)
-                    }
-                }
-                .frame(height: 200)
-                
-            }.padding()
-            
-            
-            
-           
-            
+            }
+            .padding()
         }
-        
-       
-
     }
     
 }

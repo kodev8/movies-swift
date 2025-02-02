@@ -7,6 +7,20 @@
 
 import Foundation
 
+struct MovieResponse: Codable {
+    let search: [Movie]?
+    let totalResults: String?
+    let response: String
+    let error: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case search = "Search"
+        case totalResults = "totalResults"
+        case response = "Response"
+        case error = "Error"
+    }
+}
+
 struct Movie: Codable, Identifiable {
     let title: String
     let year: String
@@ -24,19 +38,6 @@ struct Movie: Codable, Identifiable {
         case imdbID = "imdbID"
         case type = "Type"
         case poster = "Poster"
-    }
-}
-
-// Root response structure from OMDB API
-struct MovieResponse: Codable {
-    let search: [Movie]
-    let totalResults: String
-    let response: String
-    
-    enum CodingKeys: String, CodingKey {
-        case search = "Search"
-        case totalResults
-        case response = "Response"
     }
 }
 
