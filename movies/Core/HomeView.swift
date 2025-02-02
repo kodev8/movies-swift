@@ -9,8 +9,9 @@ import SwiftUI
 import SwiftfulUI
 import SwiftfulRouting
 
-struct movieRow {
-    var movies: [Movie];
+struct movieRow: Identifiable {
+    let id = UUID()
+    var movies: [Movie]
 }
 
 struct HomeView: View {
@@ -47,7 +48,28 @@ struct HomeView: View {
 //    callback
     
     private func getData() async {
-        
+        do {
+            // Fetch movies using your MovieService
+            let url = "https://www.omdbapi.com/?s=titanic&apikey=7080ff75"
+            let movieService = MovieService()
+            await movieService.getMovies(url: url)
+            
+            // Create movie rows from the fetched movies
+            if !movieService.movies.isEmpty {
+                // Set the first movie as hero movie
+                heroMovie = movieService.movies[0]
+                
+                // Create three different rows of movies
+                let allMovies = movieService.movies
+                movieRows = [
+                    movieRow(movies: Array(allMovies.prefix(10))),  // Popular movies
+                    movieRow(movies: Array(allMovies.prefix(10))),  // Top 10
+                    movieRow(movies: Array(allMovies.suffix(from: max(0, allMovies.count - 10))))  // Recently added
+                ]
+            }
+        } catch {
+            print("Error fetching data: \(error)")
+        }
     }
     
     private func onMoviePressed(movie: Movie) {
@@ -81,36 +103,62 @@ struct HomeView: View {
         
     }
         
-//    private var genreRows: some View {
-//        LazyVStack(spacing: 16) {
-//            ForEach(Array(movieRows.enumerated()), id: \.offset){ (rowIndex, row) in
-//                VStack(alignment: .leading, spacing: 6) {
-//                    Text("")
-//                        .font(.headline)
-//                        .padding(.horizontal, 16)
-//                    
-//                    ScrollView(.horizontal) {
-//                        LazyHStack {
-//                            ForEach(Array(row.movies.enumerated()), id: \.offset) {(index, movie) in
-//                                MovieRowItem(
-//                                    imageName: movie.poster ,
-//                                    title: movie.title,
-//                                    isRecentlyAdded: false,
-//                                    topTenRanking: rowIndex == 1 ? (index + 1) : nil
-//                                ).onTapGesture(
-//                                    onMoviePressed(move: movie)
-//                                )
-//                            }
-//                        }
-//                        .padding(.horizontal, 16)
-//                    }
-//                    .scrollIndicators(.hidden)
-//                    
-//                }
-//                
-//            }
-//        }
-//    }
+    private struct MovieGenreRow: View {
+        let rowIndex: Int
+        let movies: [Movie]
+        let onMoviePressed: (Movie) -> Void
+        
+        var body: some View {
+            VStack(alignment: .leading, spacing: 6) {
+                Text(getRowTitle(rowIndex: rowIndex))
+                    .font(.headline)
+                    .padding(.horizontal, 16)
+                
+                ScrollView(.horizontal) {
+                    LazyHStack {
+                        ForEach(movies) { movie in
+                            MovieRowItem(
+                                imageName: movie.poster,
+                                title: movie.title,
+                                isRecentlyAdded: false,
+                                topTenRanking: rowIndex == 1 ? movies.firstIndex(where: { $0.id == movie.id })?.advanced(by: 1) : nil
+                            )
+                            .onTapGesture {
+                                onMoviePressed(movie)
+                            }
+                        }
+                    }
+                    .padding(.horizontal, 16)
+                }
+                .scrollIndicators(.hidden)
+            }
+        }
+        
+        private func getRowTitle(rowIndex: Int) -> String {
+            switch rowIndex {
+            case 0:
+                return "Popular Movies"
+            case 1:
+                return "Top 10 Today"
+            case 2:
+                return "Recently Added"
+            default:
+                return "Movies"
+            }
+        }
+    }
+    
+    private var genreRows: some View {
+        LazyVStack(spacing: 16) {
+            ForEach(Array(movieRows.enumerated()), id: \.offset) { rowIndex, row in
+                MovieGenreRow(
+                    rowIndex: rowIndex,
+                    movies: row.movies,
+                    onMoviePressed: onMoviePressed
+                )
+            }
+        }
+    }
     
     private var scrollViewLayer: some View {
         ScrollViewWithOnScrollChanged(.vertical,
@@ -142,7 +190,7 @@ struct HomeView: View {
                 }
                 Text("\(scrollViewOffset)")
                     .foregroundStyle(.red)
-//                genreRows
+                genreRows
             }
             
         },
