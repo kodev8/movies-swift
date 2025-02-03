@@ -40,6 +40,7 @@
 		B4AA37AB2D505C1700C18D1C /* MovieUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AA37AA2D505C1700C18D1C /* MovieUser.swift */; };
 		B4AA37AD2D505C9500C18D1C /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AA37AC2D505C9500C18D1C /* CoreDataManager.swift */; };
 		B4AA37B02D505DA500C18D1C /* MovieModels.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B4AA37AE2D505DA500C18D1C /* MovieModels.xcdatamodeld */; };
+		B4AA37B22D5066DC00C18D1C /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4AA37B12D5066DC00C18D1C /* SearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -93,6 +94,7 @@
 		B4AA37AA2D505C1700C18D1C /* MovieUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieUser.swift; sourceTree = "<group>"; };
 		B4AA37AC2D505C9500C18D1C /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		B4AA37AF2D505DA500C18D1C /* MovieModels.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = MovieModels.xcdatamodel; sourceTree = "<group>"; };
+		B4AA37B12D5066DC00C18D1C /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -251,8 +253,9 @@
 		B4AA37A22D505BC200C18D1C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B4AA37A32D505BC900C18D1C /* Auth */,
 				B4AA37A42D505BD900C18D1C /* ViewExtensions.swift */,
+				B4AA37A32D505BC900C18D1C /* Auth */,
+				B4AA37B12D5066DC00C18D1C /* SearchView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				AC3A51BE2D43A675009EE2B7 /* movie.service.swift in Sources */,
 				B4AA37AD2D505C9500C18D1C /* CoreDataManager.swift in Sources */,
 				B4AA37AB2D505C1700C18D1C /* MovieUser.swift in Sources */,
+				B4AA37B22D5066DC00C18D1C /* SearchView.swift in Sources */,
 				B49CDCEA2D4FE4A900DD4050 /* RateButton.swift in Sources */,
 				AC3A51C12D43A7F3009EE2B7 /* Movie.swift in Sources */,
 				B4AA37B02D505DA500C18D1C /* MovieModels.xcdatamodeld in Sources */,

@@ -188,8 +188,6 @@ struct HomeView: View {
                     )
                     .padding(24)
                 }
-                Text("\(scrollViewOffset)")
-                    .foregroundStyle(.red)
                 genreRows
             }
             
@@ -247,7 +245,7 @@ struct HomeView: View {
     }
     
     private var header: some View {
-        HStack(spacing:0) {
+        HStack(spacing: 0) {
             Text("For you")
                 .frame(
                     maxWidth: .infinity,
@@ -259,18 +257,18 @@ struct HomeView: View {
             
             HStack(spacing: 16) {
                 Image(systemName: "tv.badge.wifi").onTapGesture {
-                    //
                     print("tv")
                 }
                 
                 Image(systemName: "arrow.down.to.line").onTapGesture {
-                    //
                     print("downnnload")
                 }
                 
                 Image(systemName: "magnifyingglass").onTapGesture {
-                    print("search")
-                    //
+                    router.showScreen(.push){ _ in
+                        SearchView()
+                    }
+
                 }
             }
         }.font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
