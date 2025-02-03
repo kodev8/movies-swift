@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftfulRouting
+import SwiftData
 
 
 struct LandingView: View {
@@ -107,12 +108,23 @@ struct LandingView: View {
 
 
 #Preview {
-    
-    let coreDataManager = CoreDataManager.shared
+    let container: ModelContainer = {
+        do {
+            return try ModelContainer(
+                for: MovieUser.self, DetailedMovie.self,
+                configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+            )
+        } catch {
+            fatalError("Failed to initialize ModelContainer")
+        }
+    }()
     
     RouterView { _ in
         LandingView()
-    }.environment(\.managedObjectContext, coreDataManager.container.viewContext)
-   
+    }
+    .modelContainer(container)
 }
+
+
+
 

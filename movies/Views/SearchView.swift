@@ -117,7 +117,7 @@ struct SearchView: View {
                     }
                 }
             }
-        }
+        }.toolbar(.hidden, for: .navigationBar)
     }
     
     private func loadMoreIfNeeded() {

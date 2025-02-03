@@ -7,11 +7,14 @@
 
 import SwiftUI
 import SwiftfulRouting
+import SwiftData
+
 
 struct SignInView: View {
-    
+   
     @Environment(\.router) var router
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.modelContext) private var modelContext
+    @Query private var users: [MovieUser]
    
     @State private var email: String = ""
     @State private var password: String = ""
@@ -140,33 +143,22 @@ struct SignInView: View {
     }
    
     private func signIn() {
-        // Validate inputs
         guard !email.isEmpty, !password.isEmpty else {
             alertMessage = "Please fill in all fields"
             showAlert = true
             return
         }
        
-        // Check credentials against CoreData
-        let fetchRequest = MovieUser.fetchRequest()
-        fetchRequest.predicate = NSPredicate(format: "email == %@ AND password == %@", email, password)
-       
-        do {
-            let users = try managedObjectContext.fetch(fetchRequest)
-            if let user = users.first {
-                // Store current user
-                UserDefaults.standard.set(user.id.uuidString, forKey: "currentUserId")
-               
-                // Navigate to HomeView
-                router.showScreen(.push) { _ in
-                    HomeView()
-                }
-            } else {
-                alertMessage = "Invalid credentials"
-                showAlert = true
+        if let user = users.first(where: { $0.email == email && $0.password == password }) {
+            // Store current user
+            UserDefaults.standard.set(user.id.uuidString, forKey: "currentUserId")
+           
+            // Navigate to HomeView
+            router.showScreen(.push) { _ in
+                HomeView()
             }
-        } catch {
-            alertMessage = "Error signing in"
+        } else {
+            alertMessage = "Invalid credentials"
             showAlert = true
         }
     }
@@ -178,5 +170,5 @@ struct SignInView: View {
         SignInView()
     }
    
-  
+ 
 }

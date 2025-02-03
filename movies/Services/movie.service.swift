@@ -89,5 +89,18 @@ class MovieService: ObservableObject {
         hasMorePages = true
         currentQuery = ""
     }
+    
+    func fetchMovieDetails(imdbID: String) async throws -> MovieDetail {
+           let urlString = "https://www.omdbapi.com/?i=\(imdbID)&apikey=\(apiKey)"
+           guard let url = URL(string: urlString) else {
+               throw URLError(.badURL)
+           }
+          
+           let (data, _) = try await URLSession.shared.data(from: url)
+           return try JSONDecoder().decode(MovieDetail.self, from: data)
+       }
+
+
+
 }
 

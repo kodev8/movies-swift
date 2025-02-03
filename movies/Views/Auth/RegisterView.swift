@@ -5,12 +5,15 @@
 //  Created by Terran Winner on 2/2/25.
 //
 
+
 import SwiftUI
+import SwiftData
 import SwiftfulRouting
+
 
 struct RegisterView: View {
     @Environment(\.router) var router
-    @Environment(\.managedObjectContext) var managedObjectContext
+    @Environment(\.modelContext) private var modelContext
    
     @State private var name: String = ""
     @State private var email: String = ""
@@ -106,28 +109,25 @@ struct RegisterView: View {
     }
    
     private func register() {
-        // Validate inputs
         guard !name.isEmpty, !email.isEmpty, !password.isEmpty else {
             alertMessage = "Please fill in all fields"
             showAlert = true
             return
         }
        
-        // Create new user
-        let user = MovieUser(context: managedObjectContext)
-        user.id = UUID()
-        user.name = name
-        user.email = email
-        user.password = password
-        user.dateOfBirth = dateOfBirth
+        let user = MovieUser(
+            email: email,
+            name: name,
+            password: password,
+            dateOfBirth: dateOfBirth
+        )
+       
+        modelContext.insert(user)
        
         do {
-            try managedObjectContext.save()
-           
-            // Store current user
+            try modelContext.save()
             UserDefaults.standard.set(user.id.uuidString, forKey: "currentUserId")
            
-            // Navigate to HomeView
             router.showScreen(.push) { _ in
                 HomeView()
             }
@@ -138,11 +138,17 @@ struct RegisterView: View {
     }
 }
 
+
 #Preview {
-    
-    
+   
+   
     RouterView { _ in
         RegisterView()
     }
    
 }
+
+
+
+
+
