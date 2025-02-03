@@ -6,13 +6,19 @@
 //
 
 import SwiftUI
+import SwiftfulRouting
 
 @main
 struct moviesApp: App {
+    let coreDataManager = CoreDataManager.shared
+//    init() {
+//        coreDataManager.verifyModelExists()
+//    }
     var body: some Scene {
         WindowGroup {
-            // ConentView()
-            HomeView()
+            RouterView { _ in
+                LandingView()
+            }.environment(\.managedObjectContext, coreDataManager.container.viewContext)
             
         }
     }
