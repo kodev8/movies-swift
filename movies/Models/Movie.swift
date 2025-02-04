@@ -39,8 +39,15 @@ struct Movie: Codable, Identifiable {
         case type = "Type"
         case poster = "Poster"
     }
+    
+    init(from: DetailedMovie) {
+        title = from.title
+        year = from.year
+        imdbID = from.imdbID!
+        type = "movie"
+        poster = from.poster
+    }
 }
-
 struct Rating: Codable {
     let source, value: String
 

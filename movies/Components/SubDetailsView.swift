@@ -19,7 +19,6 @@ struct SubDetailsView: View {
     var cast: String? = ""
     
     var onPlayPressed: (() -> Void)? = nil;
-    var onDownloadPressed: (() -> Void)? = nil;
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
@@ -52,35 +51,22 @@ struct SubDetailsView: View {
                 }
             }
                 
-                VStack(spacing: 8){
-                    HStack {
-                        Image(systemName: "play.fill")
-                        Text("Play")
-                    }
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .padding(.vertical, 8)
-                    .foregroundStyle(.nDarkGray)
-                    .background(.white)
-                    .cornerRadius(4)
-                    .asButton(.press){
-                        onPlayPressed?()
-                    }
-                    
-                    HStack {
-                        Image(systemName: "arrow.down.to.line.alt")
-                        Text("Download")
-                    }
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .padding(.vertical, 8)
-                    .foregroundStyle(.white)
-                    .background(.nDarkGray)
-                    .cornerRadius(4)
-                    .asButton(.press){
-                        onDownloadPressed?()
-                    }
+            VStack(spacing: 8){
+                HStack {
+                    Image(systemName: "play.fill")
+                    Text("Play")
                 }
-                .font(.callout)
-                .fontWeight(.medium)
+                .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+                .padding(.vertical, 8)
+                .foregroundStyle(.nDarkGray)
+                .background(.white)
+                .cornerRadius(4)
+                .asButton(.press){
+                    onPlayPressed?()
+                }
+            }
+                    
+                   
             
             Group {
                 if let description {

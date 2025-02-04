@@ -48,36 +48,31 @@ struct HomeView: View {
 //    callback
     
     private func getData() async {
-        do {
             // Fetch movies using your MovieService
-            let url = "https://www.omdbapi.com/?s=titanic&apikey=7080ff75"
-            let movieService = MovieService()
-            await movieService.getMovies(url: url)
+        let url = "https://www.omdbapi.com/?s=titanic&apikey=7080ff75"
+        let movieService = MovieService()
+        await movieService.getMovies(url: url)
+        
+        // Create movie rows from the fetched movies
+        if !movieService.movies.isEmpty {
+            // Set the first movie as hero movie
+            heroMovie = movieService.movies[0]
             
-            // Create movie rows from the fetched movies
-            if !movieService.movies.isEmpty {
-                // Set the first movie as hero movie
-                heroMovie = movieService.movies[0]
-                
-                // Create three different rows of movies
-                let allMovies = movieService.movies
-                movieRows = [
-                    movieRow(movies: Array(allMovies.prefix(10))),  // Popular movies
-                    movieRow(movies: Array(allMovies.prefix(10))),  // Top 10
-                    movieRow(movies: Array(allMovies.suffix(from: max(0, allMovies.count - 10))))  // Recently added
-                ]
-            }
-        } catch {
-            print("Error fetching data: \(error)")
+            // Create three different rows of movies
+            let allMovies = movieService.movies
+            movieRows = [
+                movieRow(movies: Array(allMovies.prefix(10))),  // Popular movies
+                movieRow(movies: Array(allMovies.prefix(10))),  // Top 10
+                movieRow(movies: Array(allMovies.suffix(from: max(0, allMovies.count - 10))))  // Recently added
+            ]
         }
     }
-    
+
     private func onMoviePressed(movie: Movie) {
         router.showScreen(.sheet) { _ in
             MovieDetailsView(movie: movie)
         }
     }
-    
     
     
 //    Sections
@@ -256,12 +251,11 @@ struct HomeView: View {
                 }
             
             HStack(spacing: 16) {
-                Image(systemName: "tv.badge.wifi").onTapGesture {
-                    print("tv")
-                }
-                
+
                 Image(systemName: "arrow.down.to.line").onTapGesture {
-                    print("downnnload")
+                    router.showScreen(.push){ _ in
+                        MyListView()
+                    }
                 }
                 
                 Image(systemName: "magnifyingglass").onTapGesture {
@@ -280,8 +274,6 @@ struct HomeView: View {
 
 
     
- 
-
 
 #Preview {
     

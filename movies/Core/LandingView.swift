@@ -112,7 +112,7 @@ struct LandingView: View {
         do {
             return try ModelContainer(
                 for: MovieUser.self, DetailedMovie.self,
-                configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+                configurations: ModelConfiguration(isStoredInMemoryOnly: false)
             )
         } catch {
             fatalError("Failed to initialize ModelContainer")

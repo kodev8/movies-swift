@@ -41,6 +41,7 @@ class DetailedMovie {
     // Add a transient property for gallery images
     @Transient
     var galleryImage: Image?
+    var dateAdded: Date?
    
     init(from detail: MovieDetail, galleryImage: Image? = nil) {
         self.title = detail.title
@@ -68,6 +69,13 @@ class DetailedMovie {
         self.website = detail.website
         self.rating = 0
         self.galleryImage = galleryImage
+        self.dateAdded = Date()
+    }
+}
+
+extension DetailedMovie {
+    var asMovie: Movie {
+        Movie(from: self)
     }
 }
 
