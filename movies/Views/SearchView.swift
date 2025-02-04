@@ -16,12 +16,7 @@ struct SearchView: View {
             VStack(spacing: 16) {
                 // Search header
                 HStack(spacing: 16) {
-                    Button(action: {
-                        router.dismissScreen()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.white)
-                    }
+                   BackButton()
                     
                     // Search field
                     HStack {

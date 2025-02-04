@@ -5,9 +5,12 @@
 //  Created by Terran Winner on 2/2/25.
 //
 
+
 import SwiftUI
 import SwiftfulRouting
 import SwiftData
+
+
 
 
 struct SignInView: View {
@@ -29,12 +32,7 @@ struct SignInView: View {
             VStack(spacing: 20) {
                 // Header
                 HStack {
-                    Button(action: {
-                        router.dismissScreen()
-                    }) {
-                        Image(systemName: "chevron.left")
-                            .foregroundColor(.white)
-                    }
+                    BackButton()
                    
                     Spacer()
                    
@@ -45,7 +43,7 @@ struct SignInView: View {
                    
                     Spacer()
                    
-                    Text("Aide")
+                    Text("Help")
                         .foregroundColor(.white)
                 }
                 .padding()
@@ -57,25 +55,25 @@ struct SignInView: View {
                     // Email field
                     TextField("", text: $email)
                         .placeholder(when: email.isEmpty) {
-                            Text("E-mail ou numéro de téléphone")
+                            Text("E-mail")
                                 .foregroundColor(.gray)
                                 .padding(.leading, 8)
                         }
                         .textFieldStyle(DarkTextFieldStyle())
                    
                     // Password field
-                    HStack {
+                    ZStack(alignment: .trailing) {
                         if showPassword {
                             TextField("", text: $password)
                                 .placeholder(when: password.isEmpty) {
-                                    Text("Mot de passe")
+                                    Text("Password")
                                         .foregroundColor(.gray)
                                         .padding(.leading, 8)
                                 }
                         } else {
                             SecureField("", text: $password)
                                 .placeholder(when: password.isEmpty) {
-                                    Text("Mot de passe")
+                                    Text("Password")
                                         .foregroundColor(.gray)
                                         .padding(.leading, 8)
                                 }
@@ -84,15 +82,15 @@ struct SignInView: View {
                         Button(action: {
                             showPassword.toggle()
                         }) {
-                            Text(showPassword ? "MASQUER" : "AFFICHER")
+                            Text(showPassword ? "SHOW" : "HIDE")
                                 .foregroundColor(.gray)
-                        }
+                        }.padding(.trailing)
                     }
                     .textFieldStyle(DarkTextFieldStyle())
                    
                     // Sign In button
                     Button(action: signIn) {
-                        Text("S'identifier")
+                        Text("Sign In")
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.red)
@@ -100,15 +98,17 @@ struct SignInView: View {
                             .cornerRadius(4)
                     }
                    
-                    Text("OU")
+                    Text("OR")
                         .foregroundColor(.gray)
                    
+                    Text("Don't have an account?")
+                        .foregroundStyle(.white)
                     Button(action: {
                         router.showScreen(.push) { _ in
                             RegisterView()
                         }
                     }) {
-                        Text("Utiliser un code d'identification")
+                        Text("Sign Up")
                             .frame(maxWidth: .infinity)
                             .padding()
                             .background(Color.gray.opacity(0.3))
@@ -117,8 +117,7 @@ struct SignInView: View {
                     }
                    
                     Button(action: {}) {
-                        Text("Mot de passe oublié ?")
-                            .foregroundColor(.gray)
+                        
                     }
                 }
                 .padding(.horizontal)
@@ -126,11 +125,7 @@ struct SignInView: View {
                 Spacer()
                
                 // Bottom text
-                Text("L'identification est protégée par Google\nreCAPTCHA pour nous assurer que vous n'êtes\npas un robot. En savoir plus.")
-                    .multilineTextAlignment(.center)
-                    .font(.caption)
-                    .foregroundColor(.gray)
-                    .padding(.bottom)
+            
             }
         }
         .alert("Error", isPresented: $showAlert) {
@@ -149,7 +144,13 @@ struct SignInView: View {
             return
         }
        
-        if let user = users.first(where: { $0.email == email && $0.password == password }) {
+        let formattedEmail = email.lowercased()
+        let hashedPassword = SecurityHelper.hashPassword(password)
+       
+        if let user = users.first(where: {
+            $0.email.lowercased() == formattedEmail &&
+            $0.password == hashedPassword
+        }) {
             // Store current user
             UserDefaults.standard.set(user.id.uuidString, forKey: "currentUserId")
            
@@ -163,6 +164,8 @@ struct SignInView: View {
         }
     }
 }
+
+
 
 
 #Preview {

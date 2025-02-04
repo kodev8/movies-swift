@@ -264,6 +264,13 @@ struct HomeView: View {
                     }
 
                 }
+                
+                Image(systemName: "person.circle").onTapGesture {
+                    router.showScreen(.push){ _ in
+                        ProfileView()
+                    }
+
+                }
             }
         }.font(/*@START_MENU_TOKEN@*/.title/*@END_MENU_TOKEN@*/)
         

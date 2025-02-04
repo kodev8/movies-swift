@@ -6,9 +6,13 @@
 //
 
 
+
+
 import SwiftUI
 import SwiftData
 import SwiftfulRouting
+
+
 
 
 struct RegisterView: View {
@@ -27,24 +31,25 @@ struct RegisterView: View {
             Color.black.edgesIgnoringSafeArea(.all)
            
             VStack(spacing: 0) {
+                
                 // Header
-                HStack {
-                    Button(action: {
-                        router.dismissScreen()
-                    }) {
-                        Image(systemName: "chevron.left")
+                
+                ZStack(alignment: .leading) {
+                    BackButton()
+                    HStack {
+                      
+                       
+                        Spacer()
+                       
+                        Text("Register")
                             .foregroundColor(.white)
+                            .font(.headline)
+                       
+                        Spacer()
                     }
-                   
-                    Spacer()
-                   
-                    Text("Register")
-                        .foregroundColor(.white)
-                        .font(.headline)
-                   
-                    Spacer()
+                    .padding()
                 }
-                .padding()
+                
                
                 // Form
                 VStack(spacing: 24) {
@@ -109,16 +114,44 @@ struct RegisterView: View {
     }
    
     private func register() {
-        guard !name.isEmpty, !email.isEmpty, !password.isEmpty else {
+        // Format inputs
+        let formattedEmail = email.lowercased()
+        let formattedName = SecurityHelper.formatName(name)
+       
+        // Validate all fields
+        guard !formattedName.isEmpty, !formattedEmail.isEmpty, !password.isEmpty else {
             alertMessage = "Please fill in all fields"
             showAlert = true
             return
         }
        
+        // Validate password
+        guard SecurityHelper.isValidPassword(password) else {
+            alertMessage = "Password must contain at least 8 characters, including uppercase, lowercase, number and special character"
+            showAlert = true
+            return
+        }
+       
+        // Check for duplicate email
+        let existingUser = try? modelContext.fetch(FetchDescriptor<MovieUser>(
+            predicate: #Predicate<MovieUser> { user in
+                user.email == formattedEmail
+            }
+        )).first
+       
+        if existingUser != nil {
+            alertMessage = "Email already registered"
+            showAlert = true
+            return
+        }
+       
+        // Hash password and create user
+        let hashedPassword = SecurityHelper.hashPassword(password)
+       
         let user = MovieUser(
-            email: email,
-            name: name,
-            password: password,
+            email: formattedEmail,
+            name: formattedName,
+            password: hashedPassword,
             dateOfBirth: dateOfBirth
         )
        
@@ -139,6 +172,8 @@ struct RegisterView: View {
 }
 
 
+
+
 #Preview {
    
    
@@ -147,6 +182,16 @@ struct RegisterView: View {
     }
    
 }
+
+
+
+
+
+
+
+
+
+
 
 
 

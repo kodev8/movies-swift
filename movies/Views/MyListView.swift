@@ -266,13 +266,7 @@ struct MyListView: View {
             
             // HStack to align the button on the left
             HStack {
-                Button(action: {
-                    router.dismissScreen()
-                }) {
-                    Image(systemName: "chevron.left")
-                        .foregroundColor(.white)
-                        .font(.title2)
-                }
+                BackButton()
                 Spacer()
             }
             .padding(.leading)
@@ -444,14 +438,14 @@ struct MovieCard: View {
                     if let galleryImage = movie.galleryImage {
                         galleryImage
                             .resizable()
-                            .aspectRatio(contentMode: .fill)
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: UIScreen.main.bounds.width / 2 - 32 , height: 200)
                             .clipped()
                     } else if !movie.poster.isEmpty {
                         AsyncImage(url: URL(string: movie.poster)) { image in
                             image
                                 .resizable()
-                                .aspectRatio(contentMode: .fill)
+                                .aspectRatio(contentMode: .fit)
                                 .frame(width: UIScreen.main.bounds.width / 2 - 32, height: 200)
                                 .clipped()
                         } placeholder: {
@@ -530,13 +524,13 @@ struct MovieListItem: View {
                 // Poster
                 if let galleryImage = movie.galleryImage {
                     galleryImage
-                        .aspectRatio(contentMode: .fill)
+                        .aspectRatio(contentMode: .fit)
                         .frame(width: 100, height: 150)
                         .clipped()
                 } else {
                     AsyncImage(url: URL(string: movie.poster)) { image in
                         image
-                            .aspectRatio(contentMode: .fill)
+                            .aspectRatio(contentMode: .fit)
                             .frame(width: 100, height: 150)
                             .clipped()
                     } placeholder: {
