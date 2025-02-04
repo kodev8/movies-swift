@@ -85,50 +85,33 @@ struct SearchView: View {
                         .onTapGesture {
                             router.showScreen(.sheet) { _ in
                                 MovieDetailsView(movie: movie, movieService: movieService)
+                                
+                            }
+                        }
+                        .onAppear {
+                            if movie == movieService.movies.last {
+                                
+                                Task {
+                                    await movieService.searchMovies(query: searchText, loadMore: true)
+                                }
                             }
                         }
                         .id(movie.id)
                     }
                     
-                    // Bottom loader and detector
-                    Color.clear
-                        .frame(height: 50)
-                        .id("bottomLoader")
-                        .overlay {
+//                    // Bottom loader and detector
+//                    Color.clear
+//                        .frame(height: 50)
+//                        .id("bottomLoader")
+//                        .overlay {
                             if movieService.isLoadingMore {
                                 ProgressView()
                                     .tint(.white)
-                            }
+//                            }
                         }
                 }
                 .padding()
             }
-            .overlay(
-                GeometryReader { geometry -> Color in
-                    let maxY = geometry.frame(in: .named("scrollView")).maxY
-                    let height = geometry.size.height
-                    
-                    DispatchQueue.main.async {
-                        if maxY < height + 100 { // 100 is threshold
-                            loadMoreIfNeeded()
-                        }
-                    }
-                    return Color.clear
-                }
-            )
-            .coordinateSpace(name: "scrollView")
-        }
-    }
-    
-    private func loadMoreIfNeeded() {
-        guard !movieService.isLoadingMore,
-              movieService.hasMorePages,
-              !searchText.isEmpty else {
-            return
-        }
-        
-        Task {
-            await movieService.searchMovies(query: searchText, loadMore: true)
         }
     }
 }

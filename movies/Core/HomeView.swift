@@ -44,6 +44,7 @@ struct HomeView: View {
                 .frame(height: fullHeaderSize.height)
             
             MovieContentView(
+                tmdbService: tmdbService,
                 heroMovie: heroMovie,
                 movieRows: movieRows,
                 selectedFilter: selectedFilter,
@@ -71,11 +72,11 @@ struct HomeView: View {
     private func getData() async {
         do {
             // Fetch all movie categories
-            async let popular: () = tmdbService.fetchPopularMovies()
-            async let topRated: () = tmdbService.fetchTopRatedMovies()
-            async let upcoming: () = tmdbService.fetchUpcomingMovies()
+            try await tmdbService.fetchPopularMovies()
+            try await tmdbService.fetchTopRatedMovies()
+            try await tmdbService.fetchUpcomingMovies()
            
-            try await (popular, topRated, upcoming)
+        
            
             // Set hero movie from popular movies
             if !tmdbService.popularMovies.isEmpty {

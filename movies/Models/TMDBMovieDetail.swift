@@ -108,8 +108,8 @@ struct TMDBMovieCredits: Codable {
 
 
 struct Cast: Codable {
-    let adult: Bool
-    let gender, id: Int
+//    let adult: Bool
+//    let gender, id: Int
     let knownForDepartment: Department
     let name, originalName: String
     let popularity: Double
@@ -123,7 +123,8 @@ struct Cast: Codable {
 
 
     enum CodingKeys: String, CodingKey {
-        case adult, gender, id
+//        case adult,
+//             case gender, id
         case knownForDepartment = "known_for_department"
         case name
         case originalName = "original_name"

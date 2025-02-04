@@ -46,7 +46,7 @@ class MovieService: ObservableObject, MovieServiceProtocol {
                 let maxPages = min(100, (totalResults + 9) / 10)
                 hasMorePages = currentPage < maxPages && !searchResults.isEmpty
                 
-                print("Page: \(currentPage), Total Results: \(totalResults), Has More: \(hasMorePages)")
+//                print("Page: \(currentPage), Total Results: \(totalResults), Has More: \(hasMorePages)")
                 
             } else {
                 hasMorePages = false
@@ -130,6 +130,12 @@ class TMDBService: ObservableObject, MovieServiceProtocol {
     @Published var topRatedMovies: [TMDBMovie] = []
     @Published var upcomingMovies: [TMDBMovie] = []
    
+    @Published var isLoadingMore = false
+    @Published var hasMorePages = true
+    private var currentPopularPage = 1
+    private let maxPages = 10
+   
+  
     private func createRequest(path: String, queryItems: [URLQueryItem]) -> URLRequest {
         var components = URLComponents(string: baseURL + path)!
         components.queryItems = queryItems
@@ -146,20 +152,68 @@ class TMDBService: ObservableObject, MovieServiceProtocol {
     }
    
     @MainActor
-    func fetchPopularMovies() async throws {
+    func fetchPopularMovies(loadMore: Bool = false) async throws {
+        guard !isLoadingMore else { return }
+        
+    
+//        print("Fetching page: \(currentPopularPage), loadMore: \(loadMore), hasMorePages: \(hasMorePages)")
+//        
+        // Handle pagination
+        if loadMore {
+            guard hasMorePages else {
+                print("No more pages available")
+                return
+            }
+            
+            guard currentPopularPage < maxPages else {
+                print("Reached max pages limit")
+                hasMorePages = false
+                return
+            }
+            
+            currentPopularPage += 1
+        } else {
+            // Only reset when explicitly requesting a fresh load
+            currentPopularPage = 1
+            popularMovies = []
+            hasMorePages = true
+        }
+        
+        isLoadingMore = true
+        
         let queryItems = [
             URLQueryItem(name: "include_adult", value: "false"),
             URLQueryItem(name: "include_video", value: "false"),
             URLQueryItem(name: "language", value: "en-US"),
-            URLQueryItem(name: "page", value: "1"),
+            URLQueryItem(name: "page", value: String(currentPopularPage)),
             URLQueryItem(name: "sort_by", value: "popularity.desc")
         ]
-       
-        let request = createRequest(path: "/discover/movie", queryItems: queryItems)
-        let (data, _) = try await URLSession.shared.data(for: request)
-        let response = try JSONDecoder().decode(TMDBResponse.self, from: data)
-        popularMovies = response.results
+        
+        do {
+            let request = createRequest(path: "/discover/movie", queryItems: queryItems)
+            let (data, _) = try await URLSession.shared.data(for: request)
+            let response = try JSONDecoder().decode(TMDBResponse.self, from: data)
+            
+            
+            
+            if loadMore {
+                popularMovies.append(contentsOf: response.results)
+            } else {
+                popularMovies = response.results
+            }
+            
+        
+            hasMorePages = currentPopularPage < min(maxPages, response.totalPages)
+            
+            print("Updated hasMorePages: \(hasMorePages)")
+        } catch {
+            print("Error fetching movies: \(error)")
+        }
+        isLoadingMore = false
     }
+
+
+
    
     @MainActor
     func fetchTopRatedMovies() async throws {
@@ -253,6 +307,8 @@ class TMDBService: ObservableObject, MovieServiceProtocol {
        
         let runtime = "\(detail.runtime) min"
         let genres = detail.genres.map { $0.name }.joined(separator: ", ")
+        
+        
        
         return MovieDetail(
             title: detail.title,

@@ -56,6 +56,13 @@ struct Movie: Codable, Identifiable {
         poster = "https://image.tmdb.org/t/p/w500\(tmdbMovie.posterPath)"
     }
 }
+
+extension Movie: Equatable {
+    static func == (lhs: Movie, rhs: Movie) -> Bool {
+        return lhs.id == rhs.id
+    }
+}
+   
 struct Rating: Codable {
     let source, value: String
 
@@ -69,28 +76,29 @@ struct Rating: Codable {
 
 struct TMDBMovie: Codable {
     let adult: Bool
-    let backdropPath: String
-    let genreIDS: [Int]
+//    let backdropPath: String
+//    let genreIDS: [Int]
     let id: Int
     let originalLanguage, originalTitle, overview: String
     let popularity: Double
     let posterPath, releaseDate, title: String
-    let video: Bool
+//    let video: Bool
     let voteAverage: Double
     let voteCount: Int
 
 
     enum CodingKeys: String, CodingKey {
         case adult
-        case backdropPath = "backdrop_path"
-        case genreIDS = "genre_ids"
+//        case backdropPath = "backdrop_path"
+//        case genreIDS = "genre_ids"
         case id
         case originalLanguage = "original_language"
         case originalTitle = "original_title"
         case overview, popularity
         case posterPath = "poster_path"
         case releaseDate = "release_date"
-        case title, video
+        case title
+//             video
         case voteAverage = "vote_average"
         case voteCount = "vote_count"
     }

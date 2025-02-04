@@ -10,6 +10,7 @@ import SwiftfulUI
 
 
 struct MovieContentView: View {
+    @ObservedObject var tmdbService: TMDBService
     let heroMovie: Movie?
     let movieRows: [movieRow]
     let selectedFilter: Filter?
@@ -137,39 +138,71 @@ struct MovieContentView: View {
             movies: movies,
             fullHeaderSize: fullHeaderSize,
             onMoviePressed: onMoviePressed,
-            onScrollChanged: onScrollChanged
+            onScrollChanged: onScrollChanged,
+            tmdbService: tmdbService
         )
     }
     
     
     private struct MovieGridView: View {
         let title: String
-        let movies: [Movie]
+        var movies: [Movie]
         let fullHeaderSize: CGSize
         let onMoviePressed: (Movie) -> Void
         let onScrollChanged: (CGPoint) -> Void
+        @ObservedObject var  tmdbService: TMDBService
         @State private var gridColumns = Array(repeating: GridItem(.flexible(), spacing: 10), count: 2)
-       
+        
         var body: some View {
             ScrollViewWithOnScrollChanged(.vertical,
-            showsIndicators: false,
-            content: {
+                                          showsIndicators: false,
+                                          content: {
                 Rectangle()
                     .opacity(0)
                     .frame(height: fullHeaderSize.height)
+                
                 LazyVGrid(columns: gridColumns, spacing: 16) {
                     ForEach(movies) { movie in
                         MovieGridItem(movie: movie)
                             .onTapGesture {
                                 onMoviePressed(movie)
                             }
+                            .onAppear {
+                                
+                                if title == "Popular" {
+                                    if movie == movies.last { // Check if last item
+//                                        print("I appeared", title, movie.title)
+                                        Task {
+                                            try? await tmdbService.fetchPopularMovies(loadMore: true) // Load more
+                                        }
+                                    }
+                                }
+                                
+                            }
+                    }
+                    
+                    if tmdbService.isLoadingMore {
+                        ProgressView()
+                            .padding()
                     }
                 }
                 .padding()
             },
             onScrollChanged: onScrollChanged)
+            .onAppear {
+                Task {
+                    try await tmdbService.fetchPopularMovies() // Initial fetch
+                }
+            }
         }
     }
+
+
+
+
+
+
+
 
 
     private struct MovieGridItem: View {
