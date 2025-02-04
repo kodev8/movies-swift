@@ -40,12 +40,20 @@ struct Movie: Codable, Identifiable {
         case poster = "Poster"
     }
     
-    init(from: DetailedMovie) {
-        title = from.title
-        year = from.year
-        imdbID = from.imdbID!
+    init(from detailedMovie: DetailedMovie) {
+        title = detailedMovie.title
+        year = detailedMovie.year
+        imdbID = detailedMovie.imdbID!
         type = "movie"
-        poster = from.poster
+        poster = detailedMovie.poster
+    }
+    
+    init(from tmdbMovie: TMDBMovie) {
+        title = tmdbMovie.title
+        year = String(tmdbMovie.releaseDate.prefix(4))
+        imdbID = String(tmdbMovie.id)
+        type = "movie"
+        poster = "https://image.tmdb.org/t/p/w500\(tmdbMovie.posterPath)"
     }
 }
 struct Rating: Codable {
@@ -54,6 +62,37 @@ struct Rating: Codable {
     enum CodingKeys: String, CodingKey {
         case source = "Source"
         case value = "Value"
+    }
+}
+
+// TMDB MOVIE FOR POPULAR, UPCOMING, TOPRATED
+
+struct TMDBMovie: Codable {
+    let adult: Bool
+    let backdropPath: String
+    let genreIDS: [Int]
+    let id: Int
+    let originalLanguage, originalTitle, overview: String
+    let popularity: Double
+    let posterPath, releaseDate, title: String
+    let video: Bool
+    let voteAverage: Double
+    let voteCount: Int
+
+
+    enum CodingKeys: String, CodingKey {
+        case adult
+        case backdropPath = "backdrop_path"
+        case genreIDS = "genre_ids"
+        case id
+        case originalLanguage = "original_language"
+        case originalTitle = "original_title"
+        case overview, popularity
+        case posterPath = "poster_path"
+        case releaseDate = "release_date"
+        case title, video
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
     }
 }
 

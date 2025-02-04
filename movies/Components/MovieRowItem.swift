@@ -15,7 +15,7 @@ struct MovieRowItem: View {
     var movie: Movie? = nil
     var imageName: String = "";
     var title: String? = "";
-    var isRecentlyAdded: Bool = true;
+    var isRecentlyAdded: Bool = false;
     var topTenRanking: Int? = nil;
     
     

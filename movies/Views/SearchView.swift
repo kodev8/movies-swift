@@ -36,54 +36,7 @@ struct SearchView: View {
                 
                 // Results
                 if !movieService.movies.isEmpty {
-                    ScrollViewReader { proxy in
-                        ScrollView {
-                            LazyVGrid(
-                                columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3),
-                                spacing: 16
-                            ) {
-                                ForEach(movieService.movies) { movie in
-                                    MovieRowItem(
-                                        movie: movie,
-                                        imageName: movie.poster,
-                                        title: movie.title
-                                    )
-                                    .onTapGesture {
-                                        router.showScreen(.sheet) { _ in
-                                            MovieDetailsView(movie: movie)
-                                        }
-                                    }
-                                    .id(movie.id)
-                                }
-                                
-                                // Bottom loader and detector
-                                Color.clear
-                                    .frame(height: 50)
-                                    .id("bottomLoader")
-                                    .overlay {
-                                        if movieService.isLoadingMore {
-                                            ProgressView()
-                                                .tint(.white)
-                                        }
-                                    }
-                            }
-                            .padding()
-                        }
-                        .overlay(
-                            GeometryReader { geometry -> Color in
-                                let maxY = geometry.frame(in: .named("scrollView")).maxY
-                                let height = geometry.size.height
-                                
-                                DispatchQueue.main.async {
-                                    if maxY < height + 100 { // 100 is threshold
-                                        loadMoreIfNeeded()
-                                    }
-                                }
-                                return Color.clear
-                            }
-                        )
-                        .coordinateSpace(name: "scrollView")
-                    }
+                    MoviesSection
                 } else if isSearching {
                     ProgressView()
                         .tint(.white)
@@ -113,6 +66,58 @@ struct SearchView: View {
                 }
             }
         }.toolbar(.hidden, for: .navigationBar)
+    }
+    
+    
+    private var MoviesSection: some View {
+        ScrollViewReader { proxy in
+            ScrollView {
+                LazyVGrid(
+                    columns: Array(repeating: GridItem(.flexible(), spacing: 8), count: 3),
+                    spacing: 16
+                ) {
+                    ForEach(movieService.movies) { movie in
+                        MovieRowItem(
+                            movie: movie,
+                            imageName: movie.poster,
+                            title: movie.title
+                        )
+                        .onTapGesture {
+                            router.showScreen(.sheet) { _ in
+                                MovieDetailsView(movie: movie, movieService: movieService)
+                            }
+                        }
+                        .id(movie.id)
+                    }
+                    
+                    // Bottom loader and detector
+                    Color.clear
+                        .frame(height: 50)
+                        .id("bottomLoader")
+                        .overlay {
+                            if movieService.isLoadingMore {
+                                ProgressView()
+                                    .tint(.white)
+                            }
+                        }
+                }
+                .padding()
+            }
+            .overlay(
+                GeometryReader { geometry -> Color in
+                    let maxY = geometry.frame(in: .named("scrollView")).maxY
+                    let height = geometry.size.height
+                    
+                    DispatchQueue.main.async {
+                        if maxY < height + 100 { // 100 is threshold
+                            loadMoreIfNeeded()
+                        }
+                    }
+                    return Color.clear
+                }
+            )
+            .coordinateSpace(name: "scrollView")
+        }
     }
     
     private func loadMoreIfNeeded() {

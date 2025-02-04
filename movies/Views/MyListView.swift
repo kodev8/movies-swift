@@ -16,6 +16,7 @@ struct MyListView: View {
     @State private var selectedMovie: DetailedMovie?
     @State private var showingDeleteAlert = false
     @State private var searchText = ""
+    private let movieService: MovieServiceProtocol = MovieService()
    
     // Add view mode toggle
     enum ViewMode: String {
@@ -172,51 +173,7 @@ struct MyListView: View {
                     .frame(maxHeight: .infinity)
                 } else {
                     ZStack(alignment: .bottomTrailing) {
-                        ScrollView {
-                            if viewMode == .grid {
-                                LazyVGrid(columns: [
-                                    GridItem(.flexible(), spacing: 16),
-                                    GridItem(.flexible(), spacing: 16)
-                                ], spacing: 16) {
-                                    ForEach(filteredMovies) { movie in
-                                        MovieCard(movie: movie) {
-                                            selectedMovie = movie
-                                            if let imdbID = movie.imdbID {
-                                                if imdbID.hasPrefix("tt") {
-                                                    router.showScreen(.sheet) { _ in
-                                                        MovieDetailsView(movie: movie.asMovie)
-                                                    }
-                                                } else {
-                                                    showingEditSheet = true
-                                                }
-                                            }
-                                        }
-                                        .transition(.scale.combined(with: .opacity))
-                                    }
-                                }
-                                .padding()
-                            } else {
-                                LazyVStack(spacing: 16) {
-                                    ForEach(filteredMovies) { movie in
-                                        MovieListItem(movie: movie) {
-                                            selectedMovie = movie
-                                            if let imdbID = movie.imdbID {
-                                                if imdbID.hasPrefix("tt") {
-                                                    router.showScreen(.sheet) { _ in
-                                                        MovieDetailsView(movie: movie.asMovie)
-                                                    }
-                                                } else {
-                                                    showingEditSheet = true
-                                                }
-                                            }
-                                        }
-                                        .transition(.scale.combined(with: .opacity))
-                                    }
-                                }
-                                .padding()
-                            }
-                        }
-                        .animation(.spring(response: 0.3), value: filteredMovies)
+                        MoviesListGridView
                         
                         
                         Button(action: {
@@ -256,6 +213,54 @@ struct MyListView: View {
         }
     }
     
+    private var MoviesListGridView: some View {
+        ScrollView {
+            if viewMode == .grid {
+                LazyVGrid(columns: [
+                    GridItem(.flexible(), spacing: 16),
+                    GridItem(.flexible(), spacing: 16)
+                ], spacing: 16) {
+                    ForEach(filteredMovies) { movie in
+                        MovieCard(movie: movie) {
+                            selectedMovie = movie
+                            if let imdbID = movie.imdbID {
+                                if imdbID.hasPrefix("tt") {
+                                    router.showScreen(.sheet) { _ in
+                                        MovieDetailsView(movie: movie.asMovie, movieService: movieService)
+                                    }
+                                } else {
+                                    showingEditSheet = true
+                                }
+                            }
+                        }
+                        .transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .padding()
+            } else {
+                LazyVStack(spacing: 16) {
+                    ForEach(filteredMovies) { movie in
+                        MovieListItem(movie: movie) {
+                            selectedMovie = movie
+                            if let imdbID = movie.imdbID {
+                                if imdbID.hasPrefix("tt") {
+                                    router.showScreen(.sheet) { _ in
+                                        MovieDetailsView(movie: movie.asMovie, movieService: movieService)
+                                    }
+                                } else {
+                                    showingEditSheet = true
+                                }
+                            }
+                        }
+                        .transition(.scale.combined(with: .opacity))
+                    }
+                }
+                .padding()
+            }
+        }
+        .animation(.spring(response: 0.3), value: filteredMovies)
+    }
+    
     
     private var HeaderSection: some View {
         ZStack {
@@ -274,11 +279,6 @@ struct MyListView: View {
         .frame(maxWidth: .infinity, alignment: .center)
         .padding(.vertical, 10)
     }
-
-
-
-
-
 
    
     private var SearchBarSection : some View {

@@ -17,13 +17,15 @@ struct MovieDetailsView: View {
     @Query private var users: [MovieUser]
    
     var movie: Movie? = nil
+    let movieService: MovieServiceProtocol;
+    
    
     @State private var progress: Double = 0.8
     @State private var isMyList: Bool = false
     @State private var detailedMovie: MovieDetail?
     @State private var isLoading = true
    
-    private let movieService = MovieService()
+
    
     private var currentUser: MovieUser? {
         guard let userId = UserDefaults.standard.string(forKey: "currentUserId"),
@@ -150,7 +152,7 @@ struct MovieDetailsView: View {
         guard let movie = movie else { return }
         isLoading = true
         do {
-            detailedMovie = try await movieService.fetchMovieDetails(imdbID: movie.imdbID)
+            detailedMovie = try await movieService.fetchMovieDetails(id: movie.imdbID)
         } catch {
             print("Error fetching movie details: \(error)")
         }
@@ -201,9 +203,9 @@ struct DetailRow: View {
 }
 
 
-#Preview {
-    MovieDetailsView()
-}
+//#Preview {
+//    MovieDetailsView()
+//}
 
 
 

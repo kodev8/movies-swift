@@ -20,7 +20,7 @@ struct Filter: Hashable, Equatable {
 }
 struct PillContainer: View {
     
-    var filters: [Filter] = Filter.mFitlers;
+    var filters: [Filter];
     
     var selectedFilter: Filter? = nil;
     var onXClicked: (() -> Void)? = nil;
@@ -72,7 +72,7 @@ struct PillContainer: View {
 #Preview {
     
     ZStack(alignment: Alignment(horizontal: .center, vertical: .center), content: {
-        PillContainer()
+        PillContainer(filters: Filter.mFitlers)
     })
     
 }

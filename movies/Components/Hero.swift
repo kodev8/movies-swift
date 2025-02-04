@@ -12,7 +12,6 @@ struct Hero: View {
     var imageName: String = "";
     var isNetflixFilm: Bool = true;
     var title: String = "Players";
-    var categories: [String] = ["Rau", "Test", "Comedy"];
     
     // actions
     var onBackgroundClicked: (() -> Void)? = nil;
@@ -20,7 +19,7 @@ struct Hero: View {
     var onMyListClicked: (() -> Void)? = nil;
     var body: some View {
         ZStack(alignment: .bottom){
-            ImageView();
+            ImageView(url: imageName);
             VStack(spacing: 16) {
                 if isNetflixFilm {
                     HStack {
@@ -36,24 +35,11 @@ struct Hero: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
                     }
-                    Text(title)
-                        .font(.system(size: 50, weight: .medium, design: .serif))
+                    Spacer()
+//                    Text(title)
+//                        .font(.system(size: 50, weight: .medium, design: .serif))
                 }
                 
-                HStack(spacing: 8) {
-                    ForEach(categories, id:\.self) { category in
-                        Text(category)
-                            .font(.callout)
-                        
-                        
-                        if category != categories.last {
-                            Circle()
-                                .frame(width: 4, height: 4)
-                            
-                        }
-                       
-                    }
-                }
                 
                 HStack(spacing: 16){
                     HStack {
@@ -110,5 +96,5 @@ struct Hero: View {
 }
 
 #Preview {
-    Hero()
+    Hero(imageName: "https://picsum.photos/200/300")
 }
