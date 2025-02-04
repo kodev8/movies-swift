@@ -49,11 +49,7 @@ struct MovieContentView: View {
                         title: heroMovie.title,
                         onBackgroundClicked: {
                             onMoviePressed(heroMovie)
-                        },
-                        onPlayClicked: {
-                            onMoviePressed(heroMovie)
-                        },
-                        onMyListClicked: { }
+                        }
                     )
                     .padding(24)
                 }

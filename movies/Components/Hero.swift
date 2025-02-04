@@ -35,39 +35,40 @@ struct Hero: View {
                             .fontWeight(.semibold)
                             .foregroundStyle(.white)
                     }
-                    Spacer()
+//                    Spacer()
 //                    Text(title)
 //                        .font(.system(size: 50, weight: .medium, design: .serif))
                 }
                 
                 
                 HStack(spacing: 16){
-                    HStack {
-                        Image(systemName: "play.fill")
-                        Text("Play")
-                    }
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .padding(.vertical, 8)
-                    .foregroundStyle(.nDarkGray)
-                    .background(.white)
-                    .cornerRadius(4)
-                    .asButton(.press){
-
-                    }
+//                    HStack {
+//                        Image(systemName: "play.fill")
+//                        Text("Play")
+//                    }
+//                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+//                    .padding(.vertical, 8)
+//                    .foregroundStyle(.nDarkGray)
+//                    .background(.white)
+//                    .cornerRadius(4)
+//                    .asButton(.press){
+//                        onPlayClicked?()
+//                    }
                     
-                    HStack {
-                        Image(systemName: "plus")
-                        Text("My List")
-                    }
-                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
-                    .padding(.vertical, 8)
-                    .foregroundStyle(.white)
-                    .background(.nDarkGray)
-                    .cornerRadius(4)
-                    .asButton(.press){
-
-                    }
+//                    HStack {
+//                        Image(systemName: "plus")
+//                        Text("My List")
+//                    }
+//                    .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/)
+//                    .padding(.vertical, 8)
+//                    .foregroundStyle(.white)
+//                    .background(.nDarkGray)
+//                    .cornerRadius(4)
+//                    .asButton(.press){
+//                        onMyListClicked?()
+//                    }
                 }
+                .frame(maxWidth: .infinity)
                 .font(.callout)
                 .fontWeight(.medium)
                 
@@ -90,7 +91,7 @@ struct Hero: View {
         .cornerRadius(10)
         .aspectRatio(0.8, contentMode: .fit)
         .asButton(.tap){
-
+            onBackgroundClicked?()
         }
     }
 }
